@@ -6,18 +6,19 @@
 # /opt/horizon/.local/horizon-client/26.3.
 FROM rust:1-slim-bookworm AS build
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git unzip \
+    && apt-get install -y --no-install-recommends git rsync unzip \
     && rm -rf /var/lib/apt/lists/*
 ARG PROFILE=release
 ARG MIXINS_REV=5a64af938ec86b00d53d16a408aabc0038fb3e57
 ARG HORIZON_REVISION=
 WORKDIR /src
 COPY . .
-# The cargo registry and the target folder are cached between builds, so a mod change recompiles only what it
-# touches instead of the whole game.
+# The cargo registry, the target folder and a mirror of the sources are cached between builds, so a change
+# recompiles only what it touches instead of the whole game (build.sh: the mirror keeps cargo's timestamps).
 RUN --mount=type=cache,id=horizon-cargo-registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=horizon-cargo-git,target=/usr/local/cargo/git \
     --mount=type=cache,id=horizon-target,target=/target \
+    --mount=type=cache,id=horizon-src-mirror,target=/srcmirror \
     PROFILE="$PROFILE" MIXINS_REV="$MIXINS_REV" HORIZON_REVISION="$HORIZON_REVISION" \
     sh -c "sed 's/\r\$//' packaging/coolify/build.sh | sh"
 

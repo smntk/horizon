@@ -52,6 +52,17 @@ if [ -n "$bundles" ]; then
     SRC=/stage
 fi
 
+# --- Stable timestamps for cargo -------------------------------------------------------------------------
+# Cargo rebuilds a crate when one of its files is newer than its last build. Every Coolify deployment is a
+# fresh checkout, so every file looks new and all Horizon crates recompile even when nothing changed. Build
+# from a mirror kept in a cache instead: rsync without -t copies only the files whose content changed (they
+# get the current time), the others keep the time of the build that last saw them.
+if [ -d /srcmirror ] && command -v rsync >/dev/null 2>&1; then
+    say "Syncing the sources into the build mirror (changed files only)"
+    rsync -rlp --checksum --delete "$SRC/" /srcmirror/
+    SRC=/srcmirror
+fi
+
 # --- The game (server build) and the supervisor ---------------------------------------------------------
 say "Building horizon-engine and horizon-server ($PROFILE)"
 cd "$SRC"

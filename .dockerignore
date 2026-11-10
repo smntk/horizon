@@ -5,3 +5,7 @@ target/
 benchmarks/
 packs/
 mods/
+# Coolify rewrites these on every deployment (the container name carries a timestamp). In the build context
+# they would change the COPY layer each time and rebuild the whole game although no source changed.
+docker-compose.yml
+.env
