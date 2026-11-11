@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": { "type": "minecraft:survives_explosion" },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:solar_panel" }],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "geopower:blocks/solar_panel"
+}

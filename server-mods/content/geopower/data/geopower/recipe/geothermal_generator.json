@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "S": "minecraft:polished_blackstone", "M": "minecraft:magma_block", "I": "minecraft:iron_ingot", "R": "minecraft:redstone" },
+  "pattern": ["SMS", "IRI", "SSS"],
+  "result": { "id": "geopower:geothermal_generator", "count": 1 }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "P": "minecraft:prismarine", "B": "minecraft:bucket", "C": "minecraft:copper_ingot", "R": "minecraft:redstone" },
+  "pattern": ["PBP", "CRC", "PCP"],
+  "result": { "id": "geopower:hydro_generator", "count": 1 }
+}

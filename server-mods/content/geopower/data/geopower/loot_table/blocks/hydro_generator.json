@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": { "type": "minecraft:survives_explosion" },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:hydro_generator" }],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "geopower:blocks/hydro_generator"
+}

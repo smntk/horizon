@@ -1,0 +1,10 @@
+[package]
+name = "mod-geopower"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# The build (packaging/coolify/build.sh, or the launcher) points this at the Horizon source it builds
+# the game from. Any other dependency must be a crate and version in Horizon's Cargo.lock.
+horizon-client = { git = "https://github.com/horizon-rust/horizon" }

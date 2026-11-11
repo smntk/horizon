@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "W": "minecraft:white_wool", "I": "minecraft:iron_ingot", "R": "minecraft:redstone" },
+  "pattern": ["W W", " I ", "IRI"],
+  "result": { "id": "geopower:wind_turbine", "count": 1 }
+}

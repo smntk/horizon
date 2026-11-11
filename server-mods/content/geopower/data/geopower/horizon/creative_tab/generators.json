@@ -1,0 +1,10 @@
+{
+  "title": "itemGroup.geopower.generators",
+  "icon": "geopower:solar_panel",
+  "items": [
+    "geopower:solar_panel",
+    "geopower:wind_turbine",
+    "geopower:hydro_generator",
+    "geopower:geothermal_generator"
+  ]
+}

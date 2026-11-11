@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "G": "minecraft:glass", "D": "minecraft:daylight_detector", "I": "minecraft:iron_ingot", "R": "minecraft:redstone" },
+  "pattern": ["GGG", "IDI", "IRI"],
+  "result": { "id": "geopower:solar_panel", "count": 1 }
+}

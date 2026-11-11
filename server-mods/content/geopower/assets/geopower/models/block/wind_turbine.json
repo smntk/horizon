@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": { "top": "minecraft:block/white_concrete", "side": "minecraft:block/light_gray_concrete", "bottom": "minecraft:block/iron_block" }
+}

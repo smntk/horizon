@@ -1,0 +1,8 @@
+{
+  "values": [
+    "geopower:solar_panel",
+    "geopower:wind_turbine",
+    "geopower:hydro_generator",
+    "geopower:geothermal_generator"
+  ]
+}

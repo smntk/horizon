@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": { "type": "minecraft:survives_explosion" },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:geothermal_generator" }],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "geopower:blocks/geothermal_generator"
+}

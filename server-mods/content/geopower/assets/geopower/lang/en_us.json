@@ -1,0 +1,13 @@
+{
+  "itemGroup.geopower.generators": "GeoPower",
+  "block.geopower.solar_panel": "Solar Panel",
+  "block.geopower.wind_turbine": "Wind Turbine",
+  "block.geopower.hydro_generator": "Hydro Generator",
+  "block.geopower.geothermal_generator": "Geothermal Generator",
+  "geopower.status": "%s: %s / %s FE, making %s FE/t",
+  "geopower.status.idle": "%s: %s / %s FE, idle (%s)",
+  "geopower.hint.solar_panel": "needs open sky and daylight",
+  "geopower.hint.wind_turbine": "needs height above sea level and open air around it",
+  "geopower.hint.hydro_generator": "needs flowing water beside it",
+  "geopower.hint.geothermal_generator": "needs lava or magma touching it"
+}

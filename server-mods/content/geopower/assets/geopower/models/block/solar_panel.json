@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": { "top": "minecraft:block/daylight_detector_top", "side": "minecraft:block/daylight_detector_side", "bottom": "minecraft:block/smooth_stone" }
+}
