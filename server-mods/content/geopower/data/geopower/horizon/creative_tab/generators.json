@@ -5,6 +5,15 @@
     "geopower:solar_panel",
     "geopower:wind_turbine",
     "geopower:hydro_generator",
-    "geopower:geothermal_generator"
+    "geopower:geothermal_generator",
+    "geopower:cable",
+    "geopower:infused_alloy",
+    "geopower:reinforced_alloy",
+    "geopower:atomic_alloy",
+    "geopower:electric_furnace",
+    "geopower:electric_blast_furnace",
+    "geopower:electric_smoker",
+    "geopower:iron_farm_controller",
+    "geopower:power_port"
   ]
 }

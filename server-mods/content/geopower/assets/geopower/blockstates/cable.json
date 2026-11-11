@@ -1,0 +1,32 @@
+{
+  "multipart": [
+    { "when": { "tier": "basic" }, "apply": { "model": "geopower:block/cable_core_basic" } },
+    { "when": { "tier": "basic", "north": "true" }, "apply": { "model": "geopower:block/cable_arm_basic" } },
+    { "when": { "tier": "basic", "east": "true" }, "apply": { "model": "geopower:block/cable_arm_basic", "y": 90 } },
+    { "when": { "tier": "basic", "south": "true" }, "apply": { "model": "geopower:block/cable_arm_basic", "y": 180 } },
+    { "when": { "tier": "basic", "west": "true" }, "apply": { "model": "geopower:block/cable_arm_basic", "y": 270 } },
+    { "when": { "tier": "basic", "up": "true" }, "apply": { "model": "geopower:block/cable_arm_basic", "x": 270 } },
+    { "when": { "tier": "basic", "down": "true" }, "apply": { "model": "geopower:block/cable_arm_basic", "x": 90 } },
+    { "when": { "tier": "advanced" }, "apply": { "model": "geopower:block/cable_core_advanced" } },
+    { "when": { "tier": "advanced", "north": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced" } },
+    { "when": { "tier": "advanced", "east": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced", "y": 90 } },
+    { "when": { "tier": "advanced", "south": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced", "y": 180 } },
+    { "when": { "tier": "advanced", "west": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced", "y": 270 } },
+    { "when": { "tier": "advanced", "up": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced", "x": 270 } },
+    { "when": { "tier": "advanced", "down": "true" }, "apply": { "model": "geopower:block/cable_arm_advanced", "x": 90 } },
+    { "when": { "tier": "elite" }, "apply": { "model": "geopower:block/cable_core_elite" } },
+    { "when": { "tier": "elite", "north": "true" }, "apply": { "model": "geopower:block/cable_arm_elite" } },
+    { "when": { "tier": "elite", "east": "true" }, "apply": { "model": "geopower:block/cable_arm_elite", "y": 90 } },
+    { "when": { "tier": "elite", "south": "true" }, "apply": { "model": "geopower:block/cable_arm_elite", "y": 180 } },
+    { "when": { "tier": "elite", "west": "true" }, "apply": { "model": "geopower:block/cable_arm_elite", "y": 270 } },
+    { "when": { "tier": "elite", "up": "true" }, "apply": { "model": "geopower:block/cable_arm_elite", "x": 270 } },
+    { "when": { "tier": "elite", "down": "true" }, "apply": { "model": "geopower:block/cable_arm_elite", "x": 90 } },
+    { "when": { "tier": "ultimate" }, "apply": { "model": "geopower:block/cable_core_ultimate" } },
+    { "when": { "tier": "ultimate", "north": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate" } },
+    { "when": { "tier": "ultimate", "east": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate", "y": 90 } },
+    { "when": { "tier": "ultimate", "south": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate", "y": 180 } },
+    { "when": { "tier": "ultimate", "west": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate", "y": 270 } },
+    { "when": { "tier": "ultimate", "up": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate", "x": 270 } },
+    { "when": { "tier": "ultimate", "down": "true" }, "apply": { "model": "geopower:block/cable_arm_ultimate", "x": 90 } }
+  ]
+}

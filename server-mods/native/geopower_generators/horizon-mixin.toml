@@ -1,0 +1,15 @@
+# Generators for GeoPower (like MekanismGenerators): solar panel, wind turbine, hydro and geothermal
+# generators. They feed the core's grid.
+#
+# Needs the core mod geopower 0.2.x, as an addon needs Mekanism: the build links it
+# first and gives this package the dependency `geopower` (docs/native-mods.md, "Dependencies between
+# trait mods"). Don't add it to api/Cargo.toml yourself.
+[mod]
+id = "geopower_generators"
+version = "0.2.0"
+
+[api]
+path = "api"
+
+[dependencies]
+geopower = "^0.2"

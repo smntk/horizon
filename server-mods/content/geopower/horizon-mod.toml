@@ -1,10 +1,10 @@
 id = "geopower"
 name = "GeoPower"
-version = "0.1.0"
-description = "Generators that make power from the world around them: sun, wind, water and heat."
+version = "0.2.0"
+description = "Power from sun, wind, water and heat; cables in four tiers, electric furnaces and a multiblock iron farm."
 authors = ["Simon Tonk"]
-# A content mod: the blocks, their look, recipes and names. The power itself is the native mod
-# server-mods/native/geopower (server only). Players install this .hmod too: side = "both".
+# A content mod: the blocks, their look, recipes and names. The power itself is the native mods in
+# server-mods/native/geopower* (server only). Players install this .hmod too: side = "both".
 api = "0.2"
 side = "both"
 capabilities = ["registries"]

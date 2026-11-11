@@ -1,12 +1,13 @@
-# GeoPower: generators that make power (FE) from the world around them. A native trait mod
-# (docs/native-mods.md, "Trait mods"): the Rust package in api/ implements horizon_client's
-# mod_api::Hooks. It runs on the server only. The blocks themselves, their look, recipes and names
-# are the content mod server-mods/content/geopower, which players install too.
+# GeoPower, the core (like Mekanism itself): the power grid, cables with four tiers upgraded by alloys,
+# and electric furnaces. A native trait mod (docs/native-mods.md, "Trait mods"): the Rust package in
+# api/ implements horizon_client's mod_api::Hooks and runs on the server.
 #
-# It uses only catalog hooks and Host helpers, so it builds on later Horizons without a pin.
+# Addons depend on it as MekanismGenerators depends on mekanism (neoforge.mods.toml's
+# [[dependencies.<mod>]]): geopower_generators, geopower_ironfarm. The blocks, items and names of all
+# of them are the content mod server-mods/content/geopower, which players install too.
 [mod]
 id = "geopower"
-version = "0.1.0"
+version = "0.2.0"
 
 [api]
 path = "api"

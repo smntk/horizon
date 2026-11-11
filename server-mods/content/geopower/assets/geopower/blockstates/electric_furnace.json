@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,lit=false": { "model": "geopower:block/electric_furnace_off" },
+    "facing=north,lit=true": { "model": "geopower:block/electric_furnace_on" },
+    "facing=east,lit=false": { "model": "geopower:block/electric_furnace_off", "y": 90 },
+    "facing=east,lit=true": { "model": "geopower:block/electric_furnace_on", "y": 90 },
+    "facing=south,lit=false": { "model": "geopower:block/electric_furnace_off", "y": 180 },
+    "facing=south,lit=true": { "model": "geopower:block/electric_furnace_on", "y": 180 },
+    "facing=west,lit=false": { "model": "geopower:block/electric_furnace_off", "y": 270 },
+    "facing=west,lit=true": { "model": "geopower:block/electric_furnace_on", "y": 270 }
+  }
+}

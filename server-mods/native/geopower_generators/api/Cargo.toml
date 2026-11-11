@@ -1,0 +1,11 @@
+[package]
+name = "mod-geopower-generators"
+version = "0.2.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# The build points this at the Horizon source it builds the game from, and adds `geopower` (the core
+# mod, from [dependencies] in horizon-mixin.toml). Any other dependency must be a crate and version in
+# Horizon's Cargo.lock.
+horizon-client = { git = "https://github.com/horizon-rust/horizon" }

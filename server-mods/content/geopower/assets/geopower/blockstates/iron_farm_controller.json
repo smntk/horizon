@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "geopower:block/iron_farm_controller" }
+  }
+}

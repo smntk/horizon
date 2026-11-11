@@ -1,0 +1,13 @@
+{
+  "values": [
+    "geopower:cable",
+    "geopower:solar_panel",
+    "geopower:wind_turbine",
+    "geopower:hydro_generator",
+    "geopower:geothermal_generator",
+    "geopower:electric_furnace",
+    "geopower:electric_blast_furnace",
+    "geopower:electric_smoker",
+    "geopower:power_port"
+  ]
+}

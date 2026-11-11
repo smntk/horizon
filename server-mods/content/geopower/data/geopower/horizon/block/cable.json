@@ -1,0 +1,11 @@
+{
+  "template": "minecraft:chorus_plant",
+  "connects_to": "#geopower:cable_connects",
+  "thickness": 6,
+  "state_properties": {
+    "tier": { "type": "enum", "values": ["basic", "advanced", "elite", "ultimate"] }
+  },
+  "default_state": { "tier": "basic" },
+  "properties": { "hardness": 1.0, "explosion_resistance": 3.0, "sounds": "minecraft:copper_block" },
+  "item": true
+}

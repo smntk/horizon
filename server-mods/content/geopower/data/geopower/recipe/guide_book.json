@@ -1,0 +1,57 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:redstone"
+  ],
+  "result": {
+    "id": "minecraft:written_book",
+    "count": 1,
+    "components": {
+      "minecraft:written_book_content": {
+        "title": "GeoPower",
+        "author": "GeoPower",
+        "pages": [
+          {
+            "translate": "geopower.book.1"
+          },
+          {
+            "translate": "geopower.book.2"
+          },
+          {
+            "translate": "geopower.book.3"
+          },
+          {
+            "translate": "geopower.book.4"
+          },
+          {
+            "translate": "geopower.book.5"
+          },
+          {
+            "translate": "geopower.book.6"
+          },
+          {
+            "translate": "geopower.book.7"
+          },
+          {
+            "translate": "geopower.book.8"
+          },
+          {
+            "translate": "geopower.book.9"
+          },
+          {
+            "translate": "geopower.book.10"
+          },
+          {
+            "translate": "geopower.book.11"
+          },
+          {
+            "translate": "geopower.book.12"
+          }
+        ],
+        "resolved": true
+      }
+    }
+  }
+}

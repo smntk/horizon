@@ -32,9 +32,102 @@ toml_get() { # file table key
         }' "$1"
 }
 
-# The manifest without its [api] table, which horizon-mixins doesn't know.
+# The manifest without its [api] and [dependencies] tables, which horizon-mixins doesn't know.
 strip_api() { # manifest
-    awk '{ sub(/\r$/, "") } /^\[/ { skip = ($0 == "[api]") } !skip' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+    awk '{ sub(/\r$/, "") } /^\[/ { skip = ($0 == "[api]" || $0 == "[dependencies]") } !skip' "$1" > "$1.tmp" \
+        && mv "$1.tmp" "$1"
+}
+
+# A bundle's [dependencies] (docs/native-mods.md, "Dependencies between trait mods"), one per line:
+# "id<TAB>requirement<TAB>optional", from `id = "^1"` or `id = { version = "^2", optional = true }`.
+toml_deps() { # manifest
+    awk -v q="'" '
+        { sub(/\r$/, ""); sub("[ \t]*#.*$", "") }
+        /^\[/ { inside = ($0 == "[dependencies]"); next }
+        !inside || $0 !~ /=/ { next }
+        {
+            id = $0; sub("[ \t]*=.*$", "", id); gsub("[\"" q " \t]", "", id)
+            value = $0; sub("^[^=]*=[ \t]*", "", value)
+            optional = (value ~ /optional[ \t]*=[ \t]*true/) ? "true" : "false"
+            if (value ~ /^\{/) { if (!match(value, /version[ \t]*=[ \t]*["\047][^"\047]*/)) next
+                value = substr(value, RSTART, RLENGTH); sub(/^version[ \t]*=[ \t]*./, "", value) }
+            gsub("[\"" q " \t]", "", value)
+            printf "%s\t%s\t%s\n", id, value, optional
+        }' "$1"
+}
+
+# Whether version `1.4.2` meets Cargo requirement `^1.2` (also `1.2`, `~1.2`, `>=1.2`, `=1.2.3`, `*`).
+semver_ok() { # version requirement
+    req=$(printf '%s' "$2" | tr -d ' ')
+    case "$req" in
+        '*') return 0 ;;
+        '>='*) op=ge; req=${req#>=} ;;
+        '='*) op=eq; req=${req#=} ;;
+        '^'*) op=caret; req=${req#^} ;;
+        '~'*) op=tilde; req=${req#\~} ;;
+        [0-9]*) op=caret ;;
+        *) return 2 ;;
+    esac
+    # shellcheck disable=SC2046
+    set -- $(printf '%s' "$1" | tr '.+-' '   ')
+    v1=${1:-0}; v2=${2:-0}; v3=${3:-0}
+    # shellcheck disable=SC2046
+    set -- $(printf '%s' "$req" | tr '.' ' ')
+    r1=${1:-0}; r2=${2:-0}; r3=${3:-0}; parts=$#
+    at_least=1
+    if [ "$v1" -lt "$r1" ] || { [ "$v1" -eq "$r1" ] && { [ "$v2" -lt "$r2" ] \
+        || { [ "$v2" -eq "$r2" ] && [ "$v3" -lt "$r3" ]; }; }; }; then
+        at_least=0
+    fi
+    case $op in
+        ge) [ $at_least = 1 ] ;;
+        eq) [ "$v1" -eq "$r1" ] && [ "$v2" -eq "$r2" ] && [ "$v3" -eq "$r3" ] ;;
+        tilde) [ $at_least = 1 ] && [ "$v1" -eq "$r1" ] && { [ "$parts" -lt 2 ] || [ "$v2" -eq "$r2" ]; } ;;
+        caret)
+            [ $at_least = 1 ] || return 1
+            if [ "$r1" -gt 0 ] || [ "$parts" -lt 2 ]; then [ "$v1" -eq "$r1" ]
+            elif [ "$r2" -gt 0 ] || [ "$parts" -lt 3 ]; then [ "$v1" -eq 0 ] && [ "$v2" -eq "$r2" ]
+            else [ "$v1" -eq 0 ] && [ "$v2" -eq 0 ] && [ "$v3" -eq "$r3" ]
+            fi ;;
+    esac
+}
+
+# Checks every trait mod's dependencies against the installed ones and writes the mods in dependency
+# order (a mod after the mods it depends on, else in folder order), as the launcher orders dispatch.
+order_trait_mods() { # list file, output file
+    tab=$(printf '\t')
+    while IFS="$tab" read -r id dir path; do
+        toml_deps "$dir/horizon-mixin.toml" | while IFS="$tab" read -r dep req optional; do
+            line=$(grep "^$dep$tab" "$1" || true)
+            if [ -z "$line" ]; then
+                [ "$optional" = true ] && continue
+                die "$id needs the native mod $dep ($req) with an [api] package in server-mods/native"
+            fi
+            version=$(toml_get "$(printf '%s' "$line" | cut -f2)/horizon-mixin.toml" mod version)
+            semver_ok "$version" "$req" \
+                || die "$id needs $dep $req, server-mods/native has $dep $version"
+        done || exit 1
+    done < "$1"
+    : > "$2"
+    cp "$1" /tmp/trait-left.txt
+    while [ -s /tmp/trait-left.txt ]; do
+        : > /tmp/trait-next.txt
+        placed=0
+        while IFS="$tab" read -r id dir path; do
+            waits=0
+            for dep in $(toml_deps "$dir/horizon-mixin.toml" | cut -f1); do
+                grep -q "^$dep$tab" /tmp/trait-left.txt && waits=1
+            done
+            if [ $waits = 0 ]; then
+                printf '%s\t%s\t%s\n' "$id" "$dir" "$path" >> "$2"
+                placed=1
+            else
+                printf '%s\t%s\t%s\n' "$id" "$dir" "$path" >> /tmp/trait-next.txt
+            fi
+        done < /tmp/trait-left.txt
+        [ $placed = 1 ] || die "these native mods depend on each other in a cycle: $(cut -f1 /tmp/trait-next.txt | tr '\n' ' ')"
+        mv /tmp/trait-next.txt /tmp/trait-left.txt
+    done
 }
 
 # Trait mods (docs/native-mods.md, "Trait mods"): each [api] package is copied into the workspace with its
@@ -60,7 +153,40 @@ stage_trait_mods() { # list file of "id<TAB>bundle dir<TAB>api path", in build o
         sed -i 's|^horizon-client[ \t]*=.*|horizon-client = { path = "../../crates/horizon-client", default-features = false }|' "$manifest"
         package=$(toml_get "$manifest" package name)
         [ -n "$package" ] || die "$id: $path/Cargo.toml has no [package] name"
-        printf 'mod_%s = { path = "../../native-api/%s", package = "%s" }\n' "$i" "$id" "$package" >> /tmp/trait-deps.toml
+        # Its dependencies on other trait mods: a path dependency named by the mod id, with the target's own
+        # package name; an optional one also gets a feature of that name, on only when the mod is here.
+        : > /tmp/trait-mod-deps.toml
+        : > /tmp/trait-mod-features.toml
+        enabled=""
+        toml_deps "$dir/horizon-mixin.toml" > /tmp/trait-mod-deplist.txt
+        while IFS="$(printf '\t')" read -r dep req optional; do
+            line=$(grep "^$dep$(printf '\t')" "$1" || true)
+            [ -n "$line" ] || continue
+            dep_manifest="$(printf '%s' "$line" | cut -f2)/$(printf '%s' "$line" | cut -f3)/Cargo.toml"
+            dep_package=$(toml_get "$dep_manifest" package name)
+            if [ "$optional" = true ]; then
+                printf '%s = { path = "../%s", package = "%s", optional = true }\n' "$dep" "$dep" "$dep_package" >> /tmp/trait-mod-deps.toml
+                printf '%s = ["dep:%s"]\n' "$dep" "$dep" >> /tmp/trait-mod-features.toml
+                enabled="$enabled\"$dep\", "
+            else
+                printf '%s = { path = "../%s", package = "%s" }\n' "$dep" "$dep" "$dep_package" >> /tmp/trait-mod-deps.toml
+            fi
+        done < /tmp/trait-mod-deplist.txt
+        if [ -s /tmp/trait-mod-deps.toml ]; then
+            sed -i '/^\[dependencies\][ \t]*$/r /tmp/trait-mod-deps.toml' "$manifest"
+        fi
+        if [ -s /tmp/trait-mod-features.toml ]; then
+            if grep -q '^\[features\]' "$manifest"; then
+                sed -i '/^\[features\][ \t]*$/r /tmp/trait-mod-features.toml' "$manifest"
+            else
+                { printf '\n[features]\n'; cat /tmp/trait-mod-features.toml; } >> "$manifest"
+            fi
+        fi
+        if [ -n "$enabled" ]; then
+            printf 'mod_%s = { path = "../../native-api/%s", package = "%s", features = [%s] }\n' "$i" "$id" "$package" "$enabled" >> /tmp/trait-deps.toml
+        else
+            printf 'mod_%s = { path = "../../native-api/%s", package = "%s" }\n' "$i" "$id" "$package" >> /tmp/trait-deps.toml
+        fi
         printf '    "native-api/%s",\n' "$id" >> /tmp/trait-members.txt
         printf '        mod_%s::hooks(),\n' "$i" >> /tmp/trait-entries.rs
         ids="$ids\"$id\", "
@@ -170,7 +296,9 @@ fi
 game_package=horizon-client
 if [ -s /tmp/trait-mods.txt ]; then
     say "Linking the trait mods into the game"
-    stage_trait_mods /tmp/trait-mods.txt
+    order_trait_mods /tmp/trait-mods.txt /tmp/trait-mods-ordered.txt
+    echo "  in dependency order: $(cut -f1 /tmp/trait-mods-ordered.txt | tr '\n' ' ')"
+    stage_trait_mods /tmp/trait-mods-ordered.txt
     game_package=horizon-native-game
 fi
 

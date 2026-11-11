@@ -1,0 +1,15 @@
+# A multiblock iron farm for GeoPower: built like a classic iron farm, it makes iron ingots (and
+# poppies) from power at its power port.
+#
+# Needs the core mod geopower 0.2.x, as an addon needs Mekanism: the build links it
+# first and gives this package the dependency `geopower` (docs/native-mods.md, "Dependencies between
+# trait mods"). Don't add it to api/Cargo.toml yourself.
+[mod]
+id = "geopower_ironfarm"
+version = "0.2.0"
+
+[api]
+path = "api"
+
+[dependencies]
+geopower = "^0.2"

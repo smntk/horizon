@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "I": "minecraft:iron_ingot", "A": "geopower:infused_alloy", "B": "minecraft:blast_furnace", "S": "minecraft:smooth_stone" },
+  "pattern": ["III", "ABA", "SSS"],
+  "result": { "id": "geopower:electric_blast_furnace", "count": 1 }
+}

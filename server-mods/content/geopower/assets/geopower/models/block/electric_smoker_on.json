@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": { "front": "minecraft:block/smoker_front_on", "side": "minecraft:block/iron_block", "top": "minecraft:block/smoker_top" }
+}

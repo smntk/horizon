@@ -1,22 +1,7 @@
 //! How much power each generator makes where it stands: plain functions of what is around it, so
 //! they are tested without a game.
+use geopower::world::{SIDES, Surroundings, offset};
 use std::f64::consts::PI;
-
-/// What a generator reads of the world around it.
-pub trait Surroundings {
-    /// The block's id at `pos` (`minecraft:water`).
-    fn block(&self, pos: [i32; 3]) -> String;
-    /// A state property of the block at `pos` (water's `level`).
-    fn property(&self, pos: [i32; 3], key: &str) -> Option<String>;
-    /// The sky light at `pos`, 0 to 15.
-    fn sky_light(&self, pos: [i32; 3]) -> u8;
-    /// Rain and thunder levels, each 0.0 to 1.0.
-    fn weather(&self) -> (f32, f32);
-    /// The time of day in ticks; it keeps counting past 24000.
-    fn day_time(&self) -> i64;
-    /// `minecraft:overworld`, `minecraft:the_nether`...
-    fn dimension(&self) -> &str;
-}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Generator {
@@ -32,19 +17,6 @@ pub const SOLAR_PEAK: f64 = 20.0;
 pub const WIND_MAX: f64 = 16.0;
 /// Sea level: a wind turbine at or below it stands still.
 pub const SEA_LEVEL: i32 = 63;
-
-const SIDES: [[i32; 3]; 6] = [
-    [0, -1, 0],
-    [0, 1, 0],
-    [0, 0, -1],
-    [0, 0, 1],
-    [-1, 0, 0],
-    [1, 0, 0],
-];
-
-fn offset(pos: [i32; 3], by: [i32; 3]) -> [i32; 3] {
-    [pos[0] + by[0], pos[1] + by[1], pos[2] + by[2]]
-}
 
 /// A fluid block's `level`: 0 a source, 1 to 7 flowing, 8 and up falling.
 fn level(world: &dyn Surroundings, pos: [i32; 3]) -> u8 {

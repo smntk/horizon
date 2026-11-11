@@ -1,0 +1,4 @@
+{
+  "parent": "geopower:block/cable_arm",
+  "textures": { "cable": "minecraft:block/red_concrete" }
+}

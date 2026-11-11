@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": { "type": "minecraft:survives_explosion" },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:cable" }],
+      "rolls": 1
+    },
+    {
+      "condition": { "type": "minecraft:any_of", "terms": [{ "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "advanced" } }, { "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "elite" } }, { "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "ultimate" } }] },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:infused_alloy" }],
+      "rolls": 1
+    },
+    {
+      "condition": { "type": "minecraft:any_of", "terms": [{ "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "elite" } }, { "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "ultimate" } }] },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:reinforced_alloy" }],
+      "rolls": 1
+    },
+    {
+      "condition": { "type": "minecraft:any_of", "terms": [{ "type": "minecraft:block_state_property", "block": "geopower:cable", "properties": { "tier": "ultimate" } }] },
+      "entries": [{ "type": "minecraft:item", "name": "geopower:atomic_alloy" }],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "geopower:blocks/cable"
+}

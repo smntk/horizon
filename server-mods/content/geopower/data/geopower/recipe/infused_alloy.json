@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": ["minecraft:copper_ingot", "minecraft:redstone", "minecraft:redstone"],
+  "result": { "id": "geopower:infused_alloy", "count": 1 }
+}

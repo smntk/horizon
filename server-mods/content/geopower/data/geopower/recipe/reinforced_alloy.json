@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": ["geopower:infused_alloy", "minecraft:diamond"],
+  "result": { "id": "geopower:reinforced_alloy", "count": 1 }
+}

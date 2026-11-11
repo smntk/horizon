@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": { "front": "minecraft:block/furnace_front_on", "side": "minecraft:block/iron_block", "top": "minecraft:block/smooth_stone" }
+}

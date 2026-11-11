@@ -1,0 +1,4 @@
+{
+  "parent": "geopower:block/cable_core",
+  "textures": { "cable": "minecraft:block/light_gray_concrete" }
+}

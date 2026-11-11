@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": { "I": "minecraft:iron_ingot", "C": "geopower:cable", "A": "geopower:infused_alloy" },
+  "pattern": ["ICI", "CAC", "ICI"],
+  "result": { "id": "geopower:power_port", "count": 1 }
+}
